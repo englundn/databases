@@ -58,9 +58,10 @@ describe('Persistent Node Chat Server', function() {
         // your message table, since this is schema-dependent.
         var queryString = 'SELECT * FROM messages';
         var queryArgs = [];
-
+        console.log('after both posts');
         dbConnection.query(queryString, function(err, results) {
           // Should have one result:
+          console.log('results: ');
           console.log(results);
           expect(results.length).to.equal(1);
 
@@ -92,6 +93,7 @@ describe('Persistent Node Chat Server', function() {
       // the message we just inserted:
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
         var messageLog = JSON.parse(body);
+        console.log('messageLog');
         console.log(messageLog);
         expect(messageLog[0].message).to.equal('Men like you can never change!');
         expect(messageLog[0].roomname).to.equal('main');

@@ -41,7 +41,7 @@ app.filterFetch = function (filter) {
 
     return message.roomname === filter;
   });
-  this.displayTweets(filteredData);
+  this.displayTweets(filteredData.reverse());
 };
 
 //=============================parses and displays tweeets ===================================//
@@ -58,7 +58,7 @@ app.displayTweets = function(data) {
         tweet.username = tweet.id_users;
         $('#tweet' + index + ' .author').text(tweet.username);
         $('#tweet' + index + ' .tweetText').text(tweet.message);
-        $('#tweet' + index + ' .time').text(tweet.date);
+        $('#tweet' + index + ' .time').text(timeSince(tweet.time * 1000));
         $('#tweet' + index).parent().find('img').show();
         // $('#tweet' + index).parent();
         index++;
@@ -175,8 +175,37 @@ app.postMessage = function(message) {
 };
 
 
+//Helper functions
+
+var timeSince = function(date) {
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+  if (interval > 1) {
+    return interval + ' years ago';
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + ' months ago';
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + ' days ago';
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + ' hours ago';
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + ' minutes ago';
+  }
+  return Math.floor(seconds) + ' seconds ago';
+};
+
+
 //initialize app
 $(document).ready(function() {
   app.init();
   $('#userIdDisplay').text(app.username);
 });
+
