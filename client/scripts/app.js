@@ -1,3 +1,8 @@
+//TO DO:
+//Render the new room when a room is created
+//Display time
+//Update bootstrap
+
 // YOUR CODE HERE:
 var app = {};
 app.messageServer = 'http://127.0.0.1:3000/classes/messages';
@@ -33,6 +38,7 @@ app.fetch = function() {
 
 app.filterFetch = function (filter) {
   var filteredData = _.filter(app.storage, function(message) {
+
     return message.roomname === filter;
   });
   this.displayTweets(filteredData);
@@ -40,9 +46,10 @@ app.filterFetch = function (filter) {
 
 //=============================parses and displays tweeets ===================================//
 app.displayTweets = function(data) {
+  app.clearTweets();
   var index = 0;
   console.log(Array.isArray(data));
-  data.forEach(function(tweet) {
+  data.reverse().forEach(function(tweet) {
     if (!tweet.id_users || !tweet.message) {
       return;
     } else {
@@ -51,13 +58,25 @@ app.displayTweets = function(data) {
         tweet.username = tweet.id_users;
         $('#tweet' + index + ' .author').text(tweet.username);
         $('#tweet' + index + ' .tweetText').text(tweet.message);
-
+        $('#tweet' + index + ' .time').text(tweet.date);
+        $('#tweet' + index).parent().find('img').show();
+        // $('#tweet' + index).parent();
         index++;
       }
     }
   });
 };
-
+app.clearTweets = function() {
+  // for (var i = 0; i < 10; i ++) {
+  //   $('#tweet' + i + ' .author').text('');
+  //   $('#tweet' + i + ' .tweetText').text('');
+  //   $('#tweet' + i + ' .time').text('');
+  // }
+  $('.tweet .author').text('');
+  $('.tweet .tweetText').text('');
+  $('.tweet .time').text('');
+  $('img').hide();
+};
 // ========================= all methods that deal with Rooms =================================//
 app.setRoomSelector = function(data) {
   data.forEach(function(tweet) {
