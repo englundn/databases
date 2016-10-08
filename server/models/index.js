@@ -21,7 +21,7 @@ module.exports = {
       var roomname = req.body.roomname;
       var time = Math.floor(Date.now() / 1000);
       //(select id from users where name = "' + username + '")
-      db.query('INSERT INTO messages (text, time, roomname, id_users) VALUES ("' + message + '", "' + time + '", "' + roomname + '", "1");', function(err, row) {
+      db.query('INSERT INTO messages (message, time, roomname, id_users) VALUES ("' + message + '", "' + time + '", "' + roomname + '", "1");', function(err, row) {
         if (err) {
           console.log(err, 'error in messages post');
         } else {
